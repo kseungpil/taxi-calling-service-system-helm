@@ -1,0 +1,171 @@
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: calling-service-context
+  labels:
+    app: calling-service-context
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: calling-service-context
+  template:
+    metadata:
+      labels:
+        app: calling-service-context
+    spec:
+      containers:
+        - name: calling-service-context
+          image: username/calling-service-context:latest
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: '/actuator/health'
+              port: 8080
+            initialDelaySeconds: 10
+            timeoutSeconds: 2
+            periodSeconds: 5
+            failureThreshold: 10
+          livenessProbe:
+            httpGet:
+              path: '/actuator/health'
+              port: 8080
+            initialDelaySeconds: 120
+            timeoutSeconds: 2
+            periodSeconds: 5
+            failureThreshold: 5
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: driver-service-context
+  labels:
+    app: driver-service-context
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: driver-service-context
+  template:
+    metadata:
+      labels:
+        app: driver-service-context
+    spec:
+      containers:
+        - name: driver-service-context
+          image: username/driver-service-context:latest
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: '/actuator/health'
+              port: 8080
+            initialDelaySeconds: 10
+            timeoutSeconds: 2
+            periodSeconds: 5
+            failureThreshold: 10
+          livenessProbe:
+            httpGet:
+              path: '/actuator/health'
+              port: 8080
+            initialDelaySeconds: 120
+            timeoutSeconds: 2
+            periodSeconds: 5
+            failureThreshold: 5
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: customer-service-context
+  labels:
+    app: customer-service-context
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: customer-service-context
+  template:
+    metadata:
+      labels:
+        app: customer-service-context
+    spec:
+      containers:
+        - name: customer-service-context
+          image: username/customer-service-context:latest
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: '/actuator/health'
+              port: 8080
+            initialDelaySeconds: 10
+            timeoutSeconds: 2
+            periodSeconds: 5
+            failureThreshold: 10
+          livenessProbe:
+            httpGet:
+              path: '/actuator/health'
+              port: 8080
+            initialDelaySeconds: 120
+            timeoutSeconds: 2
+            periodSeconds: 5
+            failureThreshold: 5
+
+
+---
+
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: calling-service-context
+  labels:
+    app: calling-service-context
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    app: calling-service-context
+
+
+---
+
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: driver-service-context
+  labels:
+    app: driver-service-context
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    app: driver-service-context
+
+
+---
+
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: customer-service-context
+  labels:
+    app: customer-service-context
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    app: customer-service-context
+
